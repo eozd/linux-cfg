@@ -1,0 +1,34 @@
+xterm*faceName: Inconsolata\ for\ Powerline
+xterm*faceSize: 14
+xterm*termName: xterm-256color
+xterm*loginshell: true
+xterm*scrollTtyOutput: true
+xterm*SaveLines: 5000
+xterm*cursorBlink: false
+xterm*foreground:       #ffffff
+xterm*background:       #161616
+xterm*cursorColor:  #404040
+
+xterm*VT100.geometry: 85x24
+xterm*VT100.Translations: #override \
+				Ctrl Shift <Key>V:	insert-selection(CLIPBOARD) \n\
+				Ctrl Shift <Key>C:	copy-selection(CLIPBOARD)
+
+URxvt*font: xft:Inconsolata\ for\ Powerline:size=18:antialias=true
+URxvt*boldFont: xft:Inconsolata-Bold:Bold:size=18:antialias=true
+URxvt*termName: xterm-256color
+URxvt*scrollTtyOutput: true
+URxvt*cursorBlink: false
+URxvt*foreground: #ffffff
+URxvt*saveLines: 0
+URxvt*background: #141414
+URxvt*cursorColor:  #404040
+URxvt*geometry: 85x24
+URxvt*loginshell: true
+URxvt*scrollBar: false
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+URxvt.perl-ext-common: eval
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard

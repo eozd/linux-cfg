@@ -1,0 +1,37 @@
+[user]
+	email = email
+	name = name
+
+[alias]
+	lol     = log --graph --decorate --oneline
+	co      = checkout
+	cob     = checkout -b
+	br      = branch
+	ci      = commit -S
+	st      = status
+	unstage = reset HEAD --
+	last    = log -1 HEAD
+	d = difftool -y
+	cd = difftool -y --cached
+	pr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+	pr-clean = "!git checkout master ; git for-each-ref refs/heads/pr/* --format=\"%(refname)\" | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
+[merge]
+	tool = vimdiff
+
+[diff]
+	tool = vimdiff
+
+[difftool "vimdiff"]
+	prompt = false
+	path = nvim
+
+[mergetool "vimdiff"]
+	prompt = false
+	path = nvim
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

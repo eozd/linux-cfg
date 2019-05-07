@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#
+# Return screen brightness. Requires xorg-xbacklight package.
+
+xbacklight

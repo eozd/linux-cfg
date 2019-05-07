@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#
+# Script to lock screen.
+
+sleep 1 && xset dpms force off

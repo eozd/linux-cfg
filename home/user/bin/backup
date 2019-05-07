@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# Script to backup the whole system. The target folder is assumed to be /mnt/hdd/arch_backup and is given as the
+# last argument to below command. Modify the exclude directory list to exclude certain directories from the backup.
+
+sudo rsync -aAXv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/opt/*","/lost+found/*","/var/cache/pacman/pkg/*"} / /mnt/hdd/arch_backup
