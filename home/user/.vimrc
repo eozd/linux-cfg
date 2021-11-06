@@ -143,7 +143,7 @@ autocmd filetype help nmap <buffer> Z viWhol<C-]>
 :let maplocalleader = "&"
 nnoremap <leader>w :w<CR>
 nmap <leader>l :set list!<CR>
-nnoremap <leader>h :nohlsearch<CR>
+nnoremap <leader>hl :nohlsearch<CR>
 nmap <leader>C :source $MYVIMRC<CR>
 nmap <leader>V :e ~/.vimrc<cr>
 nmap <leader>v :vsp<CR>
@@ -199,6 +199,7 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 let g:rust_clip_command = 'xclip -selection clipboard'
+nmap <leader>t :RustTest<CR>
 " pmenu colors {{{1
 highlight Pmenu ctermfg=250 ctermbg=235 guifg=#ffc26f guibg=#3a3a3a
 highlight PmenuSel ctermfg=250 ctermbg=131 guifg=#3a3a3a guibg=#eba04d
@@ -213,7 +214,7 @@ nmap <leader>e :Lexplore<CR>
 " coc.nvim {{{1
 set cmdheight=1
 set shortmess+=c
-set signcolumn=number
+" set signcolumn=number
 inoremap <silent><expr> <c-space> coc#refresh()
 " use :CocDiagnostics as weell
 nmap <silent> [g <Plug>(coc-diagnostic-prev)

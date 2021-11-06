@@ -3,7 +3,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /home/eozd/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export ZSH=/home/eozd/.oh-my-zsh
-export TERM=xterm-256color
+export TERM=tmux-256color
 
 bindkey -v
 # Set name of the theme to load.
@@ -125,3 +125,4 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 #
 #
 export FZF_DEFAULT_COMMAND='rg --files --smart-case'
+export RUST_BACKTRACE=1
