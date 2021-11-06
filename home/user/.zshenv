@@ -21,9 +21,6 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias ta="tmux a"
 alias time='/usr/bin/time'
 alias vimdiff='nvim -d'
-alias shut='sudo systemctl poweroff'
-alias reboot='sudo systemctl reboot'
 alias suspend='sudo systemctl suspend'
 alias tt='tree -L 2'
-alias jnt="jupyter notebook --ip='127.0.0.1' --notebook-dir=~"
-alias qs='qpdfview-session'
+alias rg='rg -uu'

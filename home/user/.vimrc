@@ -1,23 +1,23 @@
 " vim: foldmethod=marker
 " General options {{{1
+set encoding=utf8
 set nocompatible
 " set lazyredraw
-" automaticaly close preview window {{{2
+" automaticaly close preview window {{{1
 autocmd CompleteDone * pclose
 :set matchpairs+=<:>
-" colors {{{2
+" colors {{{1
 set t_Co=256
-colorscheme afterglow
 let g:python_host_prog = '/usr/bin/python2'
-let g:python3_host_prog = '/home/eozd/anaconda3/bin/python3'
-" Easy project navigation with :find command {{{2
+let g:python3_host_prog = '/home/eozd/miniconda3/envs/guitar/bin/python3'
+" Easy project navigation with :find command {{{1
 set path=.\**
 set wildmenu
-" diff settings {{{2
+" diff settings {{{1
 set diffopt=filler,vertical
 syntax on
 set hlsearch
-" backup {{{2
+" backup {{{1
 set undofile
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
@@ -27,7 +27,7 @@ if has("vms")
 else
   set backup		" keep a backup file
 endif
-" general stuff {{{2
+" general stuff {{{1
 set mouse-=a
 set listchars=tab:>\ ,eol:¬
 set nowrap
@@ -39,11 +39,13 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
-"ignore case when searching {{{2
+"ignore case when searching {{{1
 set ignorecase
 set smartcase
-" numbering {{{2
+" numbering {{{1
 set number
+" Ale {{{1
+nmap rtp
 " Vundle {{{1
 set rtp+=~/.vim/bundle/Vundle.vim
 filetype off
@@ -51,22 +53,24 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'unblevable/quick-scope'
-Plugin 'Shougo/neosnippet'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'honza/vim-snippets'
 Plugin 'coot/CRDispatcher'
 Plugin 'coot/EnchantedVim'
-Plugin 'mileszs/ack.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'lervag/vimtex'
 Plugin 'numirias/semshi'
-Plugin 'andymass/vim-matlab'
-Plugin 'djoshea/vim-matlab-fold'
-
+Plugin 'rust-lang/rust.vim'
+Plugin 'cespare/vim-toml'
+Plugin 'morhetz/gruvbox'
+Plugin 'neoclide/coc.nvim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'nvim-lua/plenary.nvim'
+Plugin 'TimUntersberger/neogit'
+Plugin 'sindrets/diffview.nvim'
+call vundle#end()
 
 if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -75,10 +79,16 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-call vundle#end()
+syntax enable
 filetype plugin indent on
 " }}}
+" colorscheme {{{1
+let g:gruvbox_italic=1
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
+" }}}
 " enchanted vim very magic options {{{1
+
 let g:VeryMagic = 0
 nnoremap / /\v
 nnoremap ? ?\v
@@ -125,64 +135,42 @@ let g:qs_enable = 0
 for i in  [ 'f', 'F', 't', 'T' ]
     execute 'noremap <expr> <silent>' . i . " Quick_scope_selective('". i . "')"
 endfor
-" Tag movement {{{2
+" Tag movement {{{1
 nmap Z viW<C-]>
 autocmd filetype help nmap <buffer> Z viWhol<C-]>
-" leader mappings {{{2
+" leader mappings {{{1
 :let mapleader = " "
 :let maplocalleader = "&"
 nnoremap <leader>w :w<CR>
 nmap <leader>l :set list!<CR>
-nmap <leader>u :diffupdate<CR>
 nnoremap <leader>h :nohlsearch<CR>
 nmap <leader>C :source $MYVIMRC<CR>
-nmap <leader>v :e ~/.vimrc<cr>
-nmap <leader>e :Explore<CR>
-nmap <leader>q :windo if &buftype == "locationlist" \| quit \| elseif &buftype == "quickfix"  \| quit \| endif<CR>
+nmap <leader>V :e ~/.vimrc<cr>
+nmap <leader>v :vsp<CR>
+nmap <leader>s :split<CR>
+nmap <leader>q :q<CR>
+" nmap <leader>q :windo if &buftype == "locationlist" \| quit \| elseif &buftype == "quickfix"  \| quit \| endif<CR>
 nmap Q q:
-" Deleting lines {{{2
+" Deleting lines {{{1
 inoremap <C-U> <C-G>u<C-U>
-" window navigation {{{2
+" window navigation {{{1
 set splitright
 if has('nvim')
 	nmap <BS> <C-W>h
 endif
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-" Y behaviour {{{2
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+" Y behaviour {{{1
 nnoremap Y y$
-" buffer navigation {{{2
+" buffer navigation {{{1
 nmap <C-s> :bp<CR>
 nmap <C-N> :bn<CR>
-" CTRL-P behaviour {{{1
-nmap <C-f> :CtrlPBuffer<CR>
-let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v(\.git|\.gh|\.svn|\.stack-work|build)',
-	\ 'file': '\v\.(o|so|pdf)$',
-	\ }
-let g:ctrlp_reuse_window = 'netrw\|help'
-let g:ctrlp_regexp = 1
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_max_files = 0
-let g:ctrlp_cache_dir = $HOME.'/.vim/cache'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_working_path_mode = '0'
-let g:ctrlp_arg_map = 1
-" netrw behaviour {{{1
-let g:netrw_altv=1
-let g:netrw_liststyle=3
-let g:netrw_banner=0
-let g:netrw_winsize=20
-" Ack {{{1
-let g:ackprg = "ag --vimgrep"
-let g:ack_default_options = " -s -H --nocolor --nogroup --column --smart-case --follow"
-let g:ackhighlight = 1
 " Enable matchit {{{1
 :source $VIMRUNTIME/macros/matchit.vim
 " airline conf {{{1
-let g:airline_extensions = ['branch', 'ctrlp']
+let g:airline_extensions = ['branch']
 let g:airline_exclude_filetypes = ["qf"]
 let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
@@ -194,8 +182,7 @@ set ttimeoutlen=-1
 
 " abbreviations {{{1
 iabbrev teh the
-
-" indenting/tabs {{{2
+" indenting/tabs {{{1
 set shiftwidth=4
 set sts=4
 set expandtab
@@ -204,6 +191,78 @@ set smarttab
 set autoindent " always set autoindenting on
 set smartindent
 set tabstop=4
-
+" semshi {{{1
 let g:semshi#mark_selected_nodes = 0
 let g:semshi#error_sign = v:false
+" rustfmt {{{1
+let g:rustfmt_autosave = 1
+let g:rustfmt_emit_files = 1
+let g:rustfmt_fail_silently = 0
+let g:rust_clip_command = 'xclip -selection clipboard'
+" pmenu colors {{{1
+highlight Pmenu ctermfg=250 ctermbg=235 guifg=#ffc26f guibg=#3a3a3a
+highlight PmenuSel ctermfg=250 ctermbg=131 guifg=#3a3a3a guibg=#eba04d
+" GitGutter {{{1
+set updatetime=100
+command! Gutter GitGutterQuickFix | copen
+" netrw {{{1
+let g:netrw_winsize = 15
+let g:netrw_liststyle = 3
+let g:netrw_altv=1
+nmap <leader>e :Lexplore<CR>
+" coc.nvim {{{1
+set cmdheight=1
+set shortmess+=c
+set signcolumn=number
+inoremap <silent><expr> <c-space> coc#refresh()
+" use :CocDiagnostics as weell
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-y> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-y> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-y> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nmap <leader>d :CocCommand rust-analyzer.openDocs<CR>
+
+" FZF behaviour {{{1
+" let g:fzf_preview_window = []
+nmap <C-p> :Files<CR>
+nmap <C-e> :Buffers<CR>
+let g:fzf_layout = { 'down': '40%' }
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline']}), <bang>0)
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+nmap <leader>r :Rg 

@@ -1,15 +1,18 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/usr/share/oh-my-zsh/
-export TERM=screen-256color
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/eozd/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+export ZSH=/home/eozd/.oh-my-zsh
+export TERM=xterm-256color
 
 bindkey -v
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="candy"
+ZSH_THEME="fino"
 
-setopt NO_HUP
+# setopt NO_HUP
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -53,13 +56,16 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode) 
+plugins=(git vi-mode zsh-autosuggestions)
+autoload -Uz compinit
+compinit
+
 
 # User configuration
 
 
 # added by Anaconda3 4.4.0 installer
-PATH="$HOME/bin:$HOME/.local/bin:$HOME/anaconda3/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/eozd/.cabal/bin:/opt/pycharm/bin"
+PATH="$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/bin"
 
 LD_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/usr/lib:/lib"
 
@@ -87,53 +93,35 @@ HISTFILE=~/.histfile
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# Set volume of speakers
-function vols
-{
-	volume=$1
-	pactl set-sink-volume 0 "${volume}%"
-}
-
-# Get volume of speakers
-function volg
-{
-	pactl list sinks | grep '^[[:space:]]Volume:' | \
-    head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,'
-}
-
-# Mute volume device
-function mute
-{
-	pactl set-sink-mute 0 1
-}
-
-# Mute volume device
-function unmute
-{
-	pactl set-sink-mute 0 0
-}
-
 function cl
 {
 	cd $1 && ll
 }
- 
+
 function m
 {
 	man "$@" | nvim -c 'set ft=man' -
 }
 
+function deb() {
+    local id="$(tmux split-pane -hPF "#D" "tail -f /dev/null")"
+    tmux last-pane
+    local tty="$(tmux display-message -p -t "$id" '#{pane_tty}')"
+    rust-gdb -ex "dashboard -output $tty" "$@"
+    tmux kill-pane -t "$id"
+}
+
 export cl
-export vols
-export volg
-export mute
-export unmute
 export m
-
-export JAVA_HOME="/usr/lib/jvm/java-8-openjdk"
-export JDK_HOME=$JAVA_HOME
-
-[ -n "$XTERM_VERSION" ] && transset-df --id "$WINDOWID" > /dev/null
 
 source ~/.zshenv
 stty -ixon
+
+bindkey '^I' complete-word
+bindkey '^[[Z' autosuggest-accept
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=3,bold,underline'
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+# ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=()
+#
+#
+export FZF_DEFAULT_COMMAND='rg --files --smart-case'
