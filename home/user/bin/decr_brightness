@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-#
-# Decrease screen brightness by 10. Requires xorg-xbacklight package. Mainly intended to be the target of some keyboard
-# shortcut.
-
-xbacklight -dec 10

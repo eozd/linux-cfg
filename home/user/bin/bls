@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-#
-# Set screen brightness. Requires xorg-xbacklight package.
-
-xbacklight -set $1

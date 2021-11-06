@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+cp $HOME/.xinitrc_kde $HOME/.xinitrc
+rm $HOME/.Xmodmap
+startx

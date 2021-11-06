@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+cp $HOME/.xinitrc_i3 $HOME/.xinitrc
+cp $HOME/.Xmodmap_i3 $HOME/.Xmodmap
+startx
